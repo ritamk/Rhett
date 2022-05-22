@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "327274337046",
+    "project_id": "rhett-asmt",
+    "storage_bucket": "rhett-asmt.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:327274337046:android:e34b35b58d731537e6b637",
+        "android_client_info": {
+          "package_name": "com.example.rhett"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "327274337046-02o8gs2r4n4s9fv49gpl5cl340cmfq9i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2DPGVlvxBXe1HEpGP0HV0MUX-EDipftY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "327274337046-02o8gs2r4n4s9fv49gpl5cl340cmfq9i.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "327274337046-j847clvd2c68n7c4klfor06p5t8ssv0q.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.rhett"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

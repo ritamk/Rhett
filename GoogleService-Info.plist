@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>327274337046-j847clvd2c68n7c4klfor06p5t8ssv0q.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.327274337046-j847clvd2c68n7c4klfor06p5t8ssv0q</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDx7Z5ZFisOT_mzTmcG1O4dkyJCWUVeOD8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>327274337046</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.rhett</string>
+	<key>PROJECT_ID</key>
+	<string>rhett-asmt</string>
+	<key>STORAGE_BUCKET</key>
+	<string>rhett-asmt.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:327274337046:ios:9711adcf54e22b54e6b637</string>
+</dict>
+</plist>
