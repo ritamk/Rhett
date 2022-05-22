@@ -4,8 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rhett/controller/providers.dart';
 import 'package:rhett/shared/constants.dart';
 import 'package:rhett/view/dashboard/bottom_nav.dart';
-import 'package:rhett/view/dashboard/categories.dart';
-import 'package:rhett/view/dashboard/doc_tile.dart';
+import 'package:rhett/view/dashboard/home_page.dart';
 import 'package:rhett/view/profile/profile.dart';
 
 class HomeWrapper extends StatefulWidget {
@@ -53,11 +52,11 @@ class _HomeWrapperState extends State<HomeWrapper> {
       }),
       bottomNavigationBar: AnimatedContainer(
         duration: const Duration(milliseconds: 400),
-        height: _bottomBar ? 90.0 : 0.0,
+        height: _bottomBar ? 56.0 : 0.0,
         child: _bottomBar
             ? AnimatedContainer(
                 duration: const Duration(milliseconds: 20),
-                height: _bottomBar ? 90.0 : 0.0,
+                height: _bottomBar ? 56.0 : 0.0,
                 child: _bottomBar
                     ? Wrap(
                         children: const [
@@ -73,55 +72,10 @@ class _HomeWrapperState extends State<HomeWrapper> {
       ),
     );
   }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key, required ScrollController scrollController})
-      : _scrollController = scrollController,
-        super(key: key);
-
-  final ScrollController _scrollController;
 
   @override
-  Widget build(BuildContext context) {
-    final List<String> _titles = [
-      "Home",
-      "Profile",
-    ];
-
-    return CustomScrollView(
-      controller: _scrollController,
-      slivers: <Widget>[
-        Consumer(builder: (context, ref, _) {
-          return SliverAppBar(
-            title: Text(_titles[ref.watch(bottomNavProv)]),
-            floating: true,
-          );
-        }),
-        const SliverToBoxAdapter(
-          child: Padding(
-            padding: EdgeInsets.all(24.0),
-            child: Text(
-              "Categories:",
-              style: TextStyle(fontSize: 16.0, color: Colors.black54),
-            ),
-          ),
-        ),
-        const SliverToBoxAdapter(
-          child: HomeCategoryTab(),
-        ),
-        const SliverToBoxAdapter(
-          child: Padding(
-            padding: EdgeInsets.all(24.0),
-            child: Text(
-              "Doctors:",
-              style: TextStyle(fontSize: 16.0, color: Colors.black54),
-            ),
-          ),
-        ),
-        const DoctorTile(),
-      ],
-      physics: bouncingPhysics,
-    );
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 }

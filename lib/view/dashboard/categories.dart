@@ -20,7 +20,7 @@ class _HomeCategoryTabState extends ConsumerState<HomeCategoryTab> {
     "Orthopaedician",
   ];
   final List<IconData> _docTypeIcons = <IconData>[
-    Icons.medical_information,
+    Icons.medical_services,
     Icons.psychology,
     Icons.pregnant_woman,
     Icons.preview,
