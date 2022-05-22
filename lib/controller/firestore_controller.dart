@@ -18,6 +18,8 @@ class FirestoreController {
       await _userCollection.doc(uid).set({
         "uid": userModel.uid,
         "name": userModel.name,
+        "loc": userModel.loc,
+        "phone": userModel.phone,
         "email": userModel.email,
       });
     } catch (e) {
@@ -32,6 +34,8 @@ class FirestoreController {
         "uid": docModel.uid,
         "name": docModel.name,
         "type": docModel.type,
+        "loc": docModel.loc,
+        "phone": docModel.phone,
         "email": docModel.email,
       });
     } catch (e) {
@@ -46,6 +50,8 @@ class FirestoreController {
       return UserModel(
         uid: docSnap.data()["uid"],
         name: docSnap.data()["name"],
+        loc: docSnap.data()["loc"],
+        phone: docSnap.data()["phone"],
         email: docSnap.data()["email"],
       );
     } catch (e) {
@@ -61,10 +67,60 @@ class FirestoreController {
         uid: docSnap.data()["uid"],
         name: docSnap.data()["name"],
         type: docSnap.data()["type"],
+        loc: docSnap.data()["loc"],
+        phone: docSnap.data()["phone"],
         email: docSnap.data()["email"],
       );
     } catch (e) {
       print("getUserData: ${e.toString()}");
+      throw sthWentWrong;
+    }
+  }
+
+  Future editUserData(UserModel userModel) async {
+    try {
+      await _docCollection.doc(uid).update({
+        "uid": userModel.uid,
+        "name": userModel.name,
+        "loc": userModel.loc,
+        "phone": userModel.phone,
+        "email": userModel.email,
+      });
+    } catch (e) {
+      print("editUserData: ${e.toString()}");
+      throw sthWentWrong;
+    }
+  }
+
+  Future editDocData(DocModel docModel) async {
+    try {
+      await _docCollection.doc(uid).update({
+        "uid": docModel.uid,
+        "name": docModel.name,
+        "type": docModel.type,
+        "loc": docModel.loc,
+        "phone": docModel.phone,
+        "email": docModel.email,
+      });
+    } catch (e) {
+      print("editDocData: ${e.toString()}");
+      throw sthWentWrong;
+    }
+  }
+
+  Future editLocation(GeoPoint geoPoint, bool doc) async {
+    try {
+      if (doc) {
+        await _docCollection.doc(uid).update({
+          "loc": geoPoint,
+        });
+      } else {
+        await _userCollection.doc(uid).update({
+          "loc": geoPoint,
+        });
+      }
+    } catch (e) {
+      print("editLocation: ${e.toString()}");
       throw sthWentWrong;
     }
   }

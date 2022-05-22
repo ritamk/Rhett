@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:rhett/controller/firestore_controller.dart';
 import 'package:rhett/controller/providers.dart';
+import 'package:rhett/controller/shared_pref.dart';
+import 'package:rhett/model/user_model.dart';
 import 'package:rhett/shared/constants.dart';
 import 'package:rhett/shared/get_location.dart';
 import 'package:rhett/view/dashboard/home.dart';
@@ -13,21 +17,40 @@ class GetLocationPage extends ConsumerStatefulWidget {
 }
 
 class _GetLocationPageState extends ConsumerState<GetLocationPage> {
+  GeoPoint? _geoPoint;
+
   bool _gettingLoc = true;
   bool _errorGettingLoc = false;
   bool _gotLoc = false;
 
+  bool _doc = false;
+
   @override
   void initState() {
     super.initState();
-    _getLocation().whenComplete(() => setState((() => _gettingLoc = false)));
+    _getProfile().whenComplete(
+      () => _getLocation().whenComplete(() => FirestoreController(
+              uid: _doc
+                  ? UserSharedPreferences.getUser()!.uid
+                  : UserSharedPreferences.getDoc()!.uid)
+          .editLocation(_geoPoint!, _doc)),
+    );
+  }
+
+  Future<void> _getProfile() async {
+    if (UserSharedPreferences.getUser() != null) {
+      _doc = false;
+    } else if (UserSharedPreferences.getDoc() != null) {
+      _doc = true;
+    }
   }
 
   Future<void> _getLocation() async {
     try {
-      await determinePosition()
-          .then((value) => ref.read(geolocationProv.state).state = value)
-          .whenComplete(() => setState(() => _gotLoc = true));
+      await determinePosition().then((value) {
+        _geoPoint = GeoPoint(value.latitude, value.longitude);
+        ref.read(geolocationProv.state).state = value;
+      }).whenComplete(() => setState(() => _gotLoc = true));
     } catch (e) {
       setState(() => _errorGettingLoc = true);
       commonSnackbar(e.toString(), context);
