@@ -8,6 +8,7 @@ import 'package:rhett/controller/shared_pref.dart';
 import 'package:rhett/model/user_model.dart';
 import 'package:rhett/shared/constants.dart';
 import 'package:rhett/view/dashboard/home.dart';
+import 'package:rhett/view/permissions.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -246,7 +247,7 @@ class _SignUpPageState extends State<SignUpPage> {
             )))
         .whenComplete(() => UserSharedPreferences.setLoggedIn(true))
         .whenComplete(() => Navigator.of(context).pushAndRemoveUntil(
-            CupertinoPageRoute(builder: (context) => const HomeWrapper()),
+            CupertinoPageRoute(builder: (context) => const PermissionPage()),
             (route) => false));
   }
 

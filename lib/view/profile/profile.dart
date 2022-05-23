@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rhett/controller/auth_controller.dart';
 import 'package:rhett/controller/firestore_controller.dart';
-import 'package:rhett/controller/providers.dart';
 import 'package:rhett/controller/shared_pref.dart';
 import 'package:rhett/model/user_model.dart';
 import 'package:rhett/shared/constants.dart';
@@ -137,8 +136,16 @@ class _ProfilePageState extends State<ProfilePage> {
                             _seperator,
                             TextFormField(
                               controller: _phoneController,
-                              decoration: authInputDec(
-                                  "Phone", const Icon(Icons.phone_iphone)),
+                              decoration: InputDecoration(
+                                label: const Text("Phone"),
+                                prefixIcon: const Icon(Icons.phone_iphone),
+                                prefixText: "+91 ",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.never,
+                              ),
                               validator: (val) => !(val != null)
                                   ? "Please enter your number"
                                   : val.length != 10
@@ -225,7 +232,7 @@ class _ProfilePageState extends State<ProfilePage> {
     if (_formKey.currentState!.validate()) {
       try {
         _doc
-            ? await FirestoreController().editDocData(
+            ? await FirestoreController(uid: _docModel!.uid).editDocData(
                 DocModel(
                   uid: _docModel!.uid,
                   name: _nameController.text,
@@ -233,7 +240,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   type: _selectedType,
                 ),
               )
-            : await FirestoreController().editUserData(
+            : await FirestoreController(uid: _userModel!.uid).editUserData(
                 UserModel(
                   uid: _userModel!.uid,
                   name: _nameController.text,
