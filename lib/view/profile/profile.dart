@@ -124,7 +124,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   _doc
                                       ? const Icon(
                                           FontAwesomeIcons.userDoctor,
-                                          size: 12.0,
+                                          size: 20.0,
                                         )
                                       : const Icon(Icons.person)),
                               validator: (val) => !(val != null)
