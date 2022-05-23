@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rhett/controller/firestore_controller.dart';
 import 'package:rhett/controller/providers.dart';
 import 'package:rhett/controller/shared_pref.dart';
-import 'package:rhett/model/user_model.dart';
 import 'package:rhett/shared/constants.dart';
 import 'package:rhett/shared/get_location.dart';
 import 'package:rhett/view/dashboard/home.dart';
@@ -30,7 +29,7 @@ class _GetLocationPageState extends ConsumerState<GetLocationPage> {
     super.initState();
     _getProfile().whenComplete(
       () => _getLocation().whenComplete(() => FirestoreController(
-              uid: _doc
+              uid: !_doc
                   ? UserSharedPreferences.getUser()!.uid
                   : UserSharedPreferences.getDoc()!.uid)
           .editLocation(_geoPoint!, _doc)),

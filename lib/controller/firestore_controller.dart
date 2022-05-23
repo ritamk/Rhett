@@ -79,12 +79,10 @@ class FirestoreController {
 
   Future editUserData(UserModel userModel) async {
     try {
-      await _docCollection.doc(uid).update({
-        "uid": userModel.uid,
+      await _userCollection.doc(uid).update({
         "name": userModel.name,
         "loc": userModel.loc,
         "phone": userModel.phone,
-        "email": userModel.email,
       });
     } catch (e) {
       print("editUserData: ${e.toString()}");
@@ -95,12 +93,10 @@ class FirestoreController {
   Future editDocData(DocModel docModel) async {
     try {
       await _docCollection.doc(uid).update({
-        "uid": docModel.uid,
         "name": docModel.name,
         "type": docModel.type,
         "loc": docModel.loc,
         "phone": docModel.phone,
-        "email": docModel.email,
       });
     } catch (e) {
       print("editDocData: ${e.toString()}");

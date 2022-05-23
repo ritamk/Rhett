@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rhett/controller/auth_controller.dart';
 import 'package:rhett/controller/firestore_controller.dart';
 import 'package:rhett/controller/providers.dart';
@@ -32,6 +33,22 @@ class _ProfilePageState extends State<ProfilePage> {
 
   UserModel? _userModel;
   DocModel? _docModel;
+
+  final List<String> _docTypes = <String>[
+    "Psychiatrist",
+    "Gynaecologist",
+    "Opthalmologist",
+    "Pediatrician",
+    "Orthopaedician",
+  ];
+  final List<Icon> _docTypeIcons = const <Icon>[
+    Icon(Icons.psychology),
+    Icon(Icons.pregnant_woman),
+    Icon(Icons.preview),
+    Icon(Icons.lunch_dining),
+    Icon(Icons.elderly),
+  ];
+  String _selectedType = "Psychiatrist";
 
   @override
   void initState() {
@@ -103,7 +120,13 @@ class _ProfilePageState extends State<ProfilePage> {
                             TextFormField(
                               controller: _nameController,
                               decoration: authInputDec(
-                                  "Name", const Icon(Icons.person)),
+                                  "Name",
+                                  _doc
+                                      ? const Icon(
+                                          FontAwesomeIcons.userDoctor,
+                                          size: 12.0,
+                                        )
+                                      : const Icon(Icons.person)),
                               validator: (val) => !(val != null)
                                   ? "Please enter your name"
                                   : val.length < 3
@@ -123,6 +146,32 @@ class _ProfilePageState extends State<ProfilePage> {
                                       : null,
                               keyboardType: TextInputType.phone,
                             ),
+                            !_doc
+                                ? const SizedBox(height: 0.0, width: 0.0)
+                                : _seperator,
+                            !_doc
+                                ? const SizedBox(height: 0.0, width: 0.0)
+                                : DropdownButtonFormField<String>(
+                                    value: _selectedType,
+                                    items: _docTypes
+                                        .map<DropdownMenuItem<String>>(
+                                          (String e) => DropdownMenuItem(
+                                            child: Text(e),
+                                            value: e,
+                                          ),
+                                        )
+                                        .toList(),
+                                    validator: (val) => !(val != null)
+                                        ? "Please choose a category"
+                                        : null,
+                                    onChanged: (String? val) =>
+                                        setState(() => _selectedType = val!),
+                                    decoration: authInputDec(
+                                        "Category",
+                                        _docTypeIcons[
+                                            _docTypes.indexOf(_selectedType)]),
+                                    elevation: 3,
+                                  ),
                             _seperator,
                             TextFormField(
                               controller: _mailController,
@@ -142,9 +191,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               return MaterialButton(
                                 onPressed: () {
                                   setState(() => _saving = true);
-                                  _saveProfile(ref.watch(docAuthProv))
-                                      .whenComplete(() =>
-                                          setState(() => _saving = false));
+                                  _saveProfile().whenComplete(
+                                      () => setState(() => _saving = false));
                                 },
                                 child: !_saving
                                     ? const Text(
@@ -173,8 +221,30 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Future<void> _saveProfile(bool bool) async {
-    if (_formKey.currentState!.validate()) {}
+  Future<void> _saveProfile() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        _doc
+            ? await FirestoreController().editDocData(
+                DocModel(
+                  uid: _docModel!.uid,
+                  name: _nameController.text,
+                  phone: _phoneController.text,
+                  type: _selectedType,
+                ),
+              )
+            : await FirestoreController().editUserData(
+                UserModel(
+                  uid: _userModel!.uid,
+                  name: _nameController.text,
+                  phone: _phoneController.text,
+                ),
+              );
+      } catch (e) {
+        print("_saveProfile: ${e.toString()}");
+        commonSnackbar(sthWentWrong, context);
+      }
+    }
   }
 
   Future<void> _signOut() async {
